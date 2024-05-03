@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+    />
+    <style>
+        .card-container {
+            padding-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box-1 {
+            display: flex;
+            justify-content: space-around;
+        }
+        .box-2 {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .card {
+            width: 20vw;
+            height: 30vh;
+            margin: 20px;
+        }
+
+        .invalid {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="card-container bg-light">
+    <div class="box-1">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Employee List</h5>
+                <p class="card-text">Get the list of all employees</p>
+                <a href="/admin/employees" class="btn btn-primary">All Employees</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Search Employee By ID</h5>
+                <p class="card-text">Enter employee ID to search</p>
+                <form class="d-flex" id="searchForm" action="/admin/employees/" method="GET" onsubmit="return submitForm()">
+                    <input
+                            class="form-control me-2"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                            name="id"
+                            id="searchInput"
+                            value="0"
+                    />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="box-2">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Delete Employee By ID</h5>
+                <p class="card-text">Enter employee ID to delete</p>
+                <form class="d-flex" id="deleteForm" action="/admin/employees/delete/" method="GET" onsubmit="return submitDeleteForm()">
+                    <!-- Use POST method for deleting -->
+                    <input
+                            class="form-control me-2"
+                            type="search"
+                            placeholder="Enter ID"
+                            aria-label="Search"
+                            name="id"
+                            id="deleteInput"
+                            value=""
+                            required
+                    />
+                    <!-- Use a hidden input field to specify the DELETE method -->
+                    <input type="hidden" name="_method" value="DELETE">
+                    <!-- Add CSRF token for security if required -->
+                    <!-- <input type="hidden" name="_csrf" th:value="${_csrf.token}"> -->
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add New Employee</h5>
+                <p class="card-text">Enter employee details to add</p>
+                <a href="/admin/employees/add" class="btn btn-success">Add Employee</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Update Employee</h5>
+                <p class="card-text">Enter employee ID to update</p>
+                <form class="d-flex" id="updateForm" action="/admin/employees/update/" method="GET" onsubmit="return submitUpdateForm()">
+                    <input
+                            class="form-control me-2"
+                            type="search"
+                            placeholder="Enter ID"
+                            aria-label="Search"
+                            name="id"
+                            id="updateInput"
+                            value=""
+                            required
+                    />
+                    <button class="btn btn-warning" type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+></script>
+<script>
+    function submitForm() {
+        var id = document.getElementById('searchInput').value;
+        // Validate ID here if needed
+
+        // Set action URL dynamically
+        var form = document.getElementById('searchForm');
+        form.action = '/admin/employees/' + encodeURIComponent(id); // Encode the ID
+        return true;
+    }
+
+    function submitDeleteForm() {
+        console.log("Submit delete form called"); // Add this line for logging
+        var id = document.getElementById('deleteInput').value;
+        // Validate ID here if needed
+
+        // Set action URL dynamically
+        var form = document.getElementById('deleteForm');
+        form.action = '/admin/employees/delete/' + encodeURIComponent(id); // Encode the ID
+        return true;
+    }
+    function submitUpdateForm() {
+        console.log("Submit update form called"); // Add this line for logging
+        var id = document.getElementById('updateInput').value;
+        // Validate ID here if needed
+
+        // Set action URL dynamically
+        var form = document.getElementById('updateForm');
+        form.action = '/admin/employees/update/' + encodeURIComponent(id); // Encode the ID
+        return true;
+    }
+</script>
+</body>
+</html>
